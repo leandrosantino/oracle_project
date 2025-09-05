@@ -1962,6 +1962,7 @@ dependencies = [
     { name = "langchain-community" },
     { name = "langchain-huggingface" },
     { name = "langchain-openai" },
+    { name = "python-dotenv" },
     { name = "sentence-transformers" },
     { name = "streamlit" },
 ]
@@ -1974,6 +1975,7 @@ requires-dist = [
     { name = "langchain-community", specifier = ">=0.3.29" },
     { name = "langchain-huggingface", specifier = ">=0.3.1" },
     { name = "langchain-openai", specifier = ">=0.3.32" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
     { name = "sentence-transformers", specifier = ">=5.1.0" },
     { name = "streamlit", specifier = ">=1.49.1" },
 ]
