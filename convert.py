@@ -8,6 +8,7 @@ def processar_com_docling(input_dir: str, output_dir: str):
     :param input_dir: Caminho do diretório de entrada com os arquivos originais
     :param output_dir: Caminho do diretório onde salvar os arquivos .md
     """
+    print("- Start convertion -")
     suportados = {".pdf", ".docx", ".pptx", ".xlsx"}
     
     input_path = Path(input_dir)
@@ -16,10 +17,14 @@ def processar_com_docling(input_dir: str, output_dir: str):
 
     # Inicializa o conversor
     converter = DocumentConverter()
+    
+    a = []
 
     for file in input_path.iterdir():
+	
         if file.suffix.lower() in suportados:
             saida = output_path / f"{file.stem}.md"
+            a.append(saida)
             print(f"Processando: {file.name} -> {saida.name}")
 
             try:
@@ -31,9 +36,12 @@ def processar_com_docling(input_dir: str, output_dir: str):
 
             except Exception as e:
                 print(f"Erro ao processar {file.name}: {e}")
-
+    print(a, "Finalizado")
 if __name__ == "__main__":
-    entrada = "C:\\Users\\leand\\Documents\\Documentos\\Estatistica"   # diretório de entrada
+    # entrada = "D:\\1 - Documentos\\14 - MiR Robot\\02 - Documentação"   # diretório de entrada
+    entrada = "D:\\1 - Documentos\\15 - Escopos\\Revestimento das Tubulações de Óleo Termico"   # diretório de entrada
+    # entrada = "W:\\sgi\\2.Documentos_ e_Registros\\2.2.Procedimentos"   # diretório de entrada
+    # entrada = "C:\\Users\\leand\\Documents\\Documentos\\Estatistica"   # diretório de entrada
     # entrada = "C:\\Users\\leand\\Documents\\Documentos\\Projeto Facility"   # diretório de entrada
     saida = "arquivos_md"       # diretório de saída
     processar_com_docling(entrada, saida)

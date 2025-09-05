@@ -12,7 +12,7 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 texts = []
 files = []
 
-input_path = Path(r"C:\Dev\oracle_project\arquivos_md")
+input_path = Path(r"D:\\dev\\oracle_project\\arquivos_md")
 for f in input_path.iterdir():
     if f.is_file() and f.suffix.lower() in {".md", ".txt"}:
         files.append(str(f.absolute()))
@@ -32,7 +32,7 @@ vectorstore = FAISS.from_documents(docs, embedding=embeddings)
 vectorstore.save_local("faiss_index_folder")
 
 # --- opcional: salvar apenas a lista de arquivos (metadata) também ---
-with open("metadata.json", "w", encoding="utf-8") as f:
-    json.dump(files, f, ensure_ascii=False, indent=2)
+# with open("metadata.json", "w", encoding="utf-8") as f:
+#     json.dump(files, f, ensure_ascii=False, indent=2)
 
 print("Indexação concluída. FAISS + metadados salvos em 'faiss_index_folder'.")

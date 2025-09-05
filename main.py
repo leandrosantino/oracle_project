@@ -29,7 +29,7 @@ embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 # embrulhar o índice existente no LangChain
 vectorstore = FAISS.load_local(
-    folder_path="C:\\Dev\\oracle_project\\faiss_index_folder",  # pasta que contém 'index.faiss' e 'docs.pkl' ou similar
+    folder_path="D:\\dev\\oracle_project\\faiss_index_folder",  # pasta que contém 'index.faiss' e 'docs.pkl' ou similar
     embeddings=embeddings,
     allow_dangerous_deserialization=True
 )
@@ -40,7 +40,7 @@ vectorstore = FAISS.load_local(
 llm = ChatOpenAI(
     model="deepseek-chat",  # pode ser "deepseek-coder" também
     base_url="https://api.deepseek.com",
-    api_key="sk-63195f14f9f2427a974c246beda56ea0",
+    api_key="sk-d429af77f83842bfa90f20539fba5568",
     streaming=True,  # ativa streaming
     callbacks=[StreamingStdOutCallbackHandler()]
 )
