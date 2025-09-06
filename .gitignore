@@ -11,3 +11,4 @@ wheels/
 
 arquivos_md
 faiss_index_folder
+.env

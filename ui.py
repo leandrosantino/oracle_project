@@ -2,58 +2,46 @@ import streamlit as st
 from chat_model import ChatModel
 from langchain_core.callbacks.base import BaseCallbackHandler
 import time
-import threading
 
-class ChatCallback(BaseCallbackHandler):
-    def __init__(self, container):
-        self.container = container
-        self.text = ""
-    
-    def on_llm_start(self, token: str):
-        self.text += token
-        self.container.markdown(self.text)
-        print(token, end='')
-    
-data = st.empty()
+st.title("🔮 The Oracle", anchor="d")
 
-@st.cache_resource
+@st.cache_resource()
 def getModel():
-    model = ChatModel(ChatCallback(data))
-
-    model.invoke({"role": "user", "content": "quem descobrio o brasil?"})
-    
-    return model
-
+    return ChatModel()
 
 model = getModel()
 
-st.set_page_config(page_title="🔮 The Oracle", layout="centered")
-st.title("🔮 The Oracle")
-
-
 if "history" not in st.session_state:
-    st.session_state.history = []
+    st.session_state.history = model.get_messages()
 
 user_input = st.chat_input("Pergunte alguma coisa")
-    
 
 if user_input:
-    st.session_state.history.append({"role": "user", "content": user_input})
-    model.invoke(st.session_state.history)
+    st.session_state.history.append({"type": "human", "content": user_input})
 
 for msg in st.session_state.history:
-    if msg["role"] == "user":
-        # Mensagem do usuário (direita)
-        st.markdown(
-            f"""
-            <div style='text-align: right; display: flex; justify-content: end'>
-                <div style='background-color: gray; padding: 10px; border-radius: 10px; margin: 5px 0; width: fit-content' >
-                    {msg["content"]}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    else:
-        # Mensagem do assistente (esquerda, com markdown)
+    with st.chat_message(msg["type"]):
         st.markdown(msg["content"])
+        
+class StreamlitCallbackHandler(BaseCallbackHandler):
+    def __init__(self, state, container):
+        self.state = state
+        self.container = container
+        
+    def on_llm_new_token(self, token: str, **kwargs) -> None:
+        print(token, end='')    
+        try:
+            self.state.temp += token
+            self.container.markdown(st.session_state.temp)
+        except:
+            print("failure")
+                
+st.session_state.temp = ""
+if user_input:
+    with st.chat_message("ai"):
+        container = st.empty()
+        with container:
+            response = model.invoke(StreamlitCallbackHandler(st.session_state, container), user_input)
+            st.session_state.temp = ""
+            st.session_state.history = model.get_messages()
+
