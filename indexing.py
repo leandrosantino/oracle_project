@@ -12,7 +12,7 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 texts = []
 files = []
 
-input_path = Path(r"D:\\dev\\oracle_project\\arquivos_md")
+input_path = Path(r"C:\\Dev\\oracle_project\\arquivos_md")
 for f in input_path.iterdir():
     if f.is_file() and f.suffix.lower() in {".md", ".txt"}:
         files.append(str(f.absolute()))
